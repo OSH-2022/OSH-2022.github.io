@@ -7,7 +7,9 @@
   "scripts": {
     "test": "prettier --check docs",
     "format": "prettier --write docs",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "dev": "mkdocs serve",
+    "build": "mkdocs build"
   },
   "repository": {
     "type": "git",
