@@ -1,0 +1,35 @@
+{
+  "name": "osh-2022",
+  "version": "1.0.0",
+  "description": "USTC OSH 2022 课程主页",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "test": "prettier --check docs",
+    "format": "prettier --write docs",
+    "prepare": "husky install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OSH-2022/OSH-2022.github.io.git"
+  },
+  "keywords": [
+    "ustc",
+    "osh",
+    "course"
+  ],
+  "author": "OSH-2022",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/OSH-2022/OSH-2022.github.io/issues"
+  },
+  "homepage": "https://github.com/OSH-2022/OSH-2022.github.io#readme",
+  "dependencies": {
+    "husky": "^7.0.4",
+    "lint-staged": "^12.2.2",
+    "prettier": "^2.5.1"
+  },
+  "lint-staged": {
+    "docs/**/*": "prettier --write --ignore-unknown"
+  }
+}

@@ -12,4 +12,9 @@ jobs:
         with:
           python-version: '3.10'
       - run: pip install -r requirements.txt
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - run: npm install
+      - run: npm test
       - run: mkdocs gh-deploy --force
