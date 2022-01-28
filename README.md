@@ -23,6 +23,7 @@ Git commit hook has been added to format Markdown files.
 
 ## License
 
-All code is licensed under Apache 2.0
+Some code is explicitly licensed under Apache 2.0.
+Other code without explicit notice is All Rights Reserved by default.
 
-All texts are licensed under CC BY-NC-SA 4.0
+All texts are All Rights Reserved by default.
