@@ -20,5 +20,6 @@ extra_css:
   - 'https://101.ustclug.org/css/extra.css'
 nav:
   - 首页: README.md
+  - 实验零: lab0/README.md
   - 大作业: x/README.md
   - FAQ: faq/README.md
