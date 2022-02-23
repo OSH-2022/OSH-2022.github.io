@@ -5,7 +5,7 @@
 - 上课时间：**每周一 15:55-17:30** 和 **每周三 9:45-11:20**
 - 教室：**3A407**
 - 讲师：[**邢凯**](mailto:kxing@ustc.edu.cn)
-- 助教：[**明宇龙**](mailto:osh-2022-ta@myl7.org)
+- 助教：[**明宇龙**](mailto:osh-2022-ta@myl7.org) [**蔡智臻**](mailto:carbyne@mail.ustc.edu.cn)
 - 考核方式：开卷笔试
 
 ## 公告
