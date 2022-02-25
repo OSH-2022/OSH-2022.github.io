@@ -28,7 +28,15 @@ Linux 最基本的使用也可以从  [LUG 的 Linux 101 教程](https://101.lu
 
 如果想了解更多有关 Linux 的技巧，可以看  [Debian 教程](https://www.debian.org/doc/manuals/debian-reference/ch01.zh-cn.html)或者 [Arch Linux 文章索引](<https://wiki.archlinux.org/index.php/General_recommendations_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)>)。
 
-关于使用 BSD/WSL 完成 OSH 实验：助教们并没有测试过这些平台上的可行性，实验成功与否和实验本身无关，请自行评估。WSL1（即 WSL 初版）是微软魔改的内核，没有实现完整的 cgroups 和 IPC，如 fakeroot 也不能正常使用，可能对实验有影响；WSL2 是使用 Hyper-V 虚拟机实现、使用了完整的内核，*应该*不会干扰到实验的进行。「FreeBSD 提供了 Linux 32-bit 二进制的兼容，但是不支持 64-bit 的 Linux 二进制程序」，_助教也没使用过也不了解_。
+#### 不同平台兼容性
+
+由于无法确定各个实验全貌，目前助教无法*保证*非软件 Linux 虚拟机的平台，如 WSL1/2、BSD、Vlab，能够完成所有的实验。
+但我们在设计实验时将尽可能考虑到不同平台下的兼容性问题，并将第一时间更新下方的兼容性 tips 配合公告作为提醒：
+
+| 平台 | 实验 | 出错现象 | 原因分析 | 解决方案 |
+| ---- | ---- | -------- | -------- | -------- |
+
+这里有一些基本分析：WSL1（即 WSL 初版）是微软魔改的内核，没有实现完整的 cgroups 和 IPC，如 fakeroot 也不能正常使用，可能对实验有影响；WSL2 是使用 Hyper-V 虚拟机实现、使用了完整的内核，*应该*不会干扰到实验的进行。「FreeBSD 提供了 Linux 32-bit 二进制的兼容，但是不支持 64-bit 的 Linux 二进制程序」，_需参考实际使用状况_。
 
 ### 编程语言要求
 
