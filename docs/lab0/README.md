@@ -129,3 +129,91 @@ Linux 最基本的使用也可以从  [LUG 的 Linux 101 教程](https://101.lu
 - 此外部库是否破坏了原本的实验设计目标？如是，则禁止；如否，参考和实验目标相关程度允许；
 
 如果一个外部库被禁止，实验中对应项目将可能被酬情扣分。
+
+### 使用 gdb debug
+
+在本学期的实验中，你可能会写出各式各样的 bug，用好 debugger 往往可以大幅提升你的调试效率。本节会对 C/C++ 常用的 [gdb (GNU Project debugger)](https://www.sourceware.org/gdb/) 进行介绍。
+
+例如，在以下的程序中，运行到 `throw 20` 时会抛出一个异常
+
+```c++
+#include <iostream>
+void foo()
+{
+    throw 20;
+}
+int main()
+{
+    std::cout << "testing";
+    foo();
+    return 0;
+}
+```
+
+如果你直接编译（`g++ example.cpp`）并运行，会得到以下输出：
+
+```bash
+./a.out
+terminate called after throwing an instance of 'int'
+[1]    12079 IOT instruction (core dumped)  ./a.out
+```
+
+此时只知道程序发生了错误，但并不知道是哪里出了问题。这时候就可以使用 gdb 来进行调试（取代简单的 print）：
+
+在编译时使用 `g++ example.cpp -g`，完成编译后，运行 `gdb a.out`，会进入以下界面：
+
+```
+<some intro here>
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from a.out...
+(gdb)
+```
+
+此时输入 `run` 然后回车，gdb 就会运行你的程序，得到：
+
+```
+Starting program: /home/catoverflow/Projects/tmp/a.out
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/usr/lib/libthread_db.so.1".
+terminate called after throwing an instance of 'int'
+
+Program received signal SIGABRT, Aborted.
+0x00007ffff7ae534c in __pthread_kill_implementation () from /usr/lib/libc.so.6
+(gdb)
+```
+
+说明程序发生了错误，并回到终端。输入 `bt` (back trace) 并回车就可以看到程序的调用栈：
+
+```
+(gdb) bt
+#0  0x00007ffff7ae534c in __pthread_kill_implementation () from /usr/lib/libc.so.6
+#1  0x00007ffff7a984b8 in raise () from /usr/lib/libc.so.6
+#2  0x00007ffff7a82534 in abort () from /usr/lib/libc.so.6
+#3  0x00007ffff7dfc7ee in __gnu_cxx::__verbose_terminate_handler () at /usr/src/debug/gcc/libstdc++-v3/libsupc++/vterminate.cc:95
+#4  0x00007ffff7e08c4c in __cxxabiv1::__terminate (handler=<optimized out>) at /usr/src/debug/gcc/libstdc++-v3/libsupc++/eh_terminate.cc:48
+#5  0x00007ffff7e08cb9 in std::terminate () at /usr/src/debug/gcc/libstdc++-v3/libsupc++/eh_terminate.cc:58
+#6  0x00007ffff7e08f5e in __cxxabiv1::__cxa_throw (obj=<optimized out>, tinfo=0x555555557db0 <typeinfo for int@CXXABI_1.3>, dest=0x0)
+    at /usr/src/debug/gcc/libstdc++-v3/libsupc++/eh_throw.cc:95
+#7  0x00005555555551a4 in foo () at example.cpp:5
+#8  0x00005555555551c6 in main () at example.cpp:10
+```
+
+调用栈将函数调用自底向上显示，最上面的就是最后被调用的函数，在这里上面的都是链接的系统库，下面的两个则是我们自己的函数。这时就很容易发现错误发生在 `foo` 中，代码的第五行。
+
+最后，输入 `q` 并回车就可以退出了。
+
+在多线程 debug 中，你还可以用 `attach` 命令连接到子线程，在这种情况向 gdb 格外有用（和 print 等原始方法相比）。具体的用法可以查阅相关文档。
+
+??? tips "编译时参数 -g 的作用？"
+
+    在终端输入 `man gdb` 并找到 `-g` 的帮助文档，可以看到：
+
+    ````
+    -g  Produce debugging information in the operating system's native format (stabs, COFF, XCOFF, or DWARF).  GDB can work with this
+           debugging information.
+    ````
+
+    简单来说，这个参数会在编译的时候加入额外的调试信息，比如代码所在的行号（在 gdb 报错的时候非常有用，还可以拿来插入断点）等等。否则 gdb 调试的就是一个简单的二进制文件，能输出的信息会少很多。
+
+    你也可以不加 `-g`，然后对比一下 gdb 的输出。
