@@ -42,6 +42,8 @@
 
 下载好 linux-5.16.17.tar.xz 文件后，解压缩为文件夹 linux-5.16.17，进入后创建默认配置：
 
+_如果 Linux 5.16.17 已不是最新版本，可以直接选用最新版本。要点在于使用较新的 5.1x 版本来完成实验。_
+
 ```bash
 make defconfig
 ```
@@ -181,7 +183,7 @@ SYSCALL_DEFINE2(hello, char *, buf, size_t, buf_len)
 
 此系统调用仅仅是将 "Hello, world!\n" 复制到用户提供的 buffer。
 
-接下来我们将此文件添加到 Linux 的编译过程中。
+接下来我们将此文件添加到 Linux 的编译工具链中。
 打开 `Makefile` 文件，找到 `kernel/ certs/ mm/ fs/ ipc/ security/ crypto/` 所在的行，将 `custom/` 也添加到此列表中，变为：
 
 ```make
@@ -234,3 +236,7 @@ asmlinkage long sys_hello(char *buf, int buf_len);
 
 - 编译好的内核文件：置于 `/lab1/syscall/bzImage`
 - 测试 syscall 的源代码文件 `/lab1/syscall/initrd.c`
+
+## 额外信息
+
+本次实验满分 10 分，由于所有可获得分数为 12 分，超出 10 分的分数会作为加分被计入实验总分
