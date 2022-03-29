@@ -235,6 +235,8 @@ asmlinkage long sys_hello(char *buf, int buf_len);
 - 编译好的内核文件：置于 `/lab1/syscall/bzImage`
 - 测试 syscall 的源代码文件 `/lab1/syscall/initrd.c`
 
-## 额外信息
+## DDL 与总评分标准
 
-本次实验满分 10 分，由于所有可获得分数为 12 分，超出 10 分的分数会作为加分被计入实验总分
+此次实验截至时间为 4 月 13 日 23:59，以 commit 时间为准。
+
+本次实验满分 10 分，由于所有可获得分数为 12 分，超出 10 分的分数会作为加分被计入实验总分。
