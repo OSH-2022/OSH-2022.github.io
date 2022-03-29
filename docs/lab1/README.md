@@ -179,9 +179,7 @@ SYSCALL_DEFINE2(hello, char *, buf, size_t, buf_len)
 
 `SYSCALL_DEFINE2` 就是一个函数定义，此处能够很方便地同时为 32 bit 和 64 bit 声明对应函数。
 
-由于内核态和用户态处于不同的级别下，指针无法直接访问，此处需要使用 `copy_to_user` 把数据从内核态复制到用户态。
-
-此系统调用仅仅是将 "Hello, world!\n" 复制到用户提供的 buffer。
+此处可以直接使用 `memcpy`（内核态可以解引用用户态指针），不过 `copy_to_user` 可以协助校验目标地址是否可写。
 
 接下来我们将此文件添加到 Linux 的编译工具链中。
 打开 `Makefile` 文件，找到 `kernel/ certs/ mm/ fs/ ipc/ security/ crypto/` 所在的行，将 `custom/` 也添加到此列表中，变为：
