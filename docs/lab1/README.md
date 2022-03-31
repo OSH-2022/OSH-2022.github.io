@@ -35,6 +35,12 @@
 
 接下来实验一就算是正式开始了。
 
+在编译源码前，我们需要先安装编译所需的依赖：
+
+```bash
+sudo apt install build-essential libncurses-dev bison flex libssl-dev libelf-dev
+```
+
 在 [kernel.org](https://www.kernel.org/) 上可以下载到 Linux 内核的源代码。
 此次实验，我们选择最新的稳定版，Linux 5.16.17 的内核进行编译。
 
