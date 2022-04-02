@@ -228,7 +228,7 @@ asmlinkage long sys_hello(char *buf, int buf_len);
 请自行查询 [`syscall` Linux 文档](https://man7.org/linux/man-pages/man2/syscall.2.html)，编写程序测试以上自行添加的自定义 syscall，使得提供的 buffer 长度在充足和不足时均能输出希望的结果：
 
 - 长度充足时，返回 0，buffer 中存放完整的 "Hello, world!\n"
-- 长度不充足时，返回 -1，buffer 中存放不完整的 "Hello, world!\n"
+- 长度不充足时，返回 -1
 
 ### 评分标准
 
