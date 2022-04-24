@@ -1,7 +1,5 @@
 # 实验二
 
-!!! Warning "本文仍在编辑中"
-
 在实验一中，我们使用了许多命令行操作来完成一系列工作，如编译 Linux 内核、打包 initrd 等。所有的命令行都由一个叫做 shell 的程序解释并执行。本实验我们将自己编写一个简单的 shell 并理解 Linux shell 程序的工作原理。
 
 ## 编写 Shell 程序
@@ -75,7 +73,7 @@ $ ^C
 
 ### 支持 History
 
-在使用 shell（这里特指 bash）的时候输入 `history n` 可以显示最近执行的 n 条指令（对于 zsh 用户，`history` 命令会被自动替换为内建的 `fc -l`，显示从 n 条命令开始的记录）。同时我们可以使用 `!n` 重复执行历史记录中的第 n 条命令，该命令不会被记入 history。在 shell 中我们还可以通过上下方向键来切换到不同的历史命令。
+在使用 shell（这里特指 bash）的时候输入 `history n` 可以显示最近执行的 n 条指令（对于 zsh 用户，`history` 命令会被自动替换为内建的 `fc -l`，显示从 n 条命令开始的记录）。同时我们可以使用 `!n` 重复执行历史记录中的第 n 条命令，用 `!!` 命令重复执行上一条命令。
 
 例如：
 
@@ -87,19 +85,16 @@ $ history 3
 $ !843
 echo taokystrong
 taokystrong
-```
-
-请为你的 shell 实现对历史命令的处理，支持 `!n`、`history n` 和通过上下键切换到历史命令，且 `history n` 的输出请尽可能与 bash 相同。
-
-提示：可以考虑学习 bash/zsh，在退出程序时将历史命令记录在一个文件中（如 `.bash_history` 和 `.zsh_history`），也可以自己想其他的办法。
-
-可选：实现用 `!!` 命令重复执行上一条命令，例如：
-
-```shell
 $ !!
 echo taokystrong
 taokystrong
 ```
+
+请为你的 shell 实现对历史命令的处理，支持 `!n`、`!!` 和 `history n` 命令，且 `history n` 的输出请尽可能与 bash 相同。
+
+提示：可以考虑学习 bash/zsh，在退出程序时将历史命令记录在一个文件中（如 `.bash_history` 和 `.zsh_history`），也可以自己想其他的办法。
+
+可选：通过上下方向键切换到不同的历史命令。
 
 ### 处理 Ctrl-D (EOF) 按键（选做）
 
@@ -347,8 +342,7 @@ ptrace 提供了相应的解决方法。
   - 你的 shell 在遇到 Ctrl-C 信号时不会中断 （0.5 分）
     - 你的 shell 在遇到 Ctrl-C 时能丢弃已经输入一半的命令行，显示 `#` 提示符并重新接受输入（1 分）
   - 你的 shell 支持 `history n` 命令（1 分）
-    - 你的 shell 支持通过 `!n` 重复执行历史记录中的第 n 条命令（1 分）
-    - 你的 shell 支持通过上下键切换历史命令（1 分）
+    - 你的 shell 支持通过 `!n` 和 `!!` 命令（各 1 分）
 - strace 部分：必做项目共 3 分。对于额外的选做项目，strace 部分总分不超过 4 分：
   - 你的 strace 程序能够追踪 syscall（3 分）
   - 你的 strace 程序支持追踪 fork 和 clone 后的子进程（各 0.5 分）
