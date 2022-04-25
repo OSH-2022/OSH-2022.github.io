@@ -218,7 +218,7 @@ switch (pid) {
 waitpid(pid, 0, 0);
 ```
 
-!!! info 不能使用 `wait()`，因为需要传入 PID
+!!! info "不能使用 `wait()`，因为需要传入 PID"
 
 来等待子进程的这次停止。
 等到后，使用：
@@ -287,7 +287,7 @@ ptrace(PTRACE_GETREGS, pid, 0, &regs);
 fprintf(stderr, " = %ld\n", (long)regs.rax);
 ```
 
-!!! info 注意与入口处不同，出口处用的是 `rax` field 而不是 `orig_rax` field
+!!! info "注意与入口处不同，出口处用的是 `rax` field 而不是 `orig_rax` field"
 
 这样，一个可用的类 strace 工具就实现了。
 
