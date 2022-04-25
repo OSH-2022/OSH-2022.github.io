@@ -307,7 +307,7 @@ ptrace 提供了相应的解决方法。
 - `PTRACE_SYSCALL` 和 `waitpid()` 可能因 signal 而退出，但此次实现不考虑 signal 的问题
 - `PTRACE_O_TRACEFORK` 和 `PTRACE_O_TRACECLONE` 会在 syscall **出口处**进行通知
 
-## 实验要求
+## 实验要求与 DDL
 
 请按照以下目录结构组织你的 GitHub 仓库：
 
@@ -350,6 +350,8 @@ ptrace 提供了相应的解决方法。
 本实验可以使用 C/C++ 或 Rust 语言完成。
 
 本实验可以使用 libc, libstdc++, libm 以及 iostream, STL 等 C/C++ 语言标准和常用库。如果你愿意，你也可以使用 readline 和 ncurses 等 Linux 程序常用库。使用此处没有列出的库前请询问助教。
+
+此次实验截至时间为 5 月 9 日 23:59。
 
 ### 关于实验报告
 

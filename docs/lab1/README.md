@@ -251,3 +251,7 @@ asmlinkage long sys_hello(char *buf, int buf_len);
 此次实验截至时间为 4 月 16 日 23:59，以 commit 时间为准。
 
 本次实验满分 10 分，由于所有可获得分数为 12 分，超出 10 分的分数会作为加分被计入实验总分。
+
+## 答案/助教设计资源
+
+参见 [OSH-2022/lab1-ta](https://github.com/OSH-2022/lab1-ta)
