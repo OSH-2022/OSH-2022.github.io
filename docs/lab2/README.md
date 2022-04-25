@@ -343,9 +343,9 @@ ptrace 提供了相应的解决方法。
     - 你的 shell 在遇到 Ctrl-C 时能丢弃已经输入一半的命令行，显示 `#` 提示符并重新接受输入（1 分）
   - 你的 shell 支持 `history n` 命令（1 分）
     - 你的 shell 支持通过 `!n` 和 `!!` 命令（各 1 分）
-- strace 部分：必做项目共 3 分。对于额外的选做项目，strace 部分总分不超过 4 分：
-  - 你的 strace 程序能够追踪 syscall（3 分）
-  - 你的 strace 程序支持追踪 fork 和 clone 后的子进程（各 0.5 分）
+- strace 部分：必做项目共 2 分。对于额外的选做项目，strace 部分总分不超过 4 分：
+  - 你的 strace 程序能够追踪 syscall（2 分）
+  - 你的 strace 程序支持追踪 fork 和 clone 后的子进程（各 1 分）
 
 本实验可以使用 C/C++ 或 Rust 语言完成。
 
