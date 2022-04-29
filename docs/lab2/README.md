@@ -92,15 +92,15 @@ taokystrong
 
 请为你的 shell 实现对历史命令的处理，支持 `!n`、`!!` 和 `history n` 命令，且 `history n` 的输出请尽可能与 bash 相同。
 
-提示：可以考虑学习 bash/zsh，在退出程序时将历史命令记录在一个文件中（如 `.bash_history` 和 `.zsh_history`），也可以自己想其他的办法。
+可选：将历史命令持久化，新打开的 shell 能使用之前保留的记录（1 分）。提示：可以学习 bash/zsh，在退出程序时将历史命令记录在一个文件中（如 `.bash_history` 和 `.zsh_history`）。
 
-可选：通过上下方向键切换到不同的历史命令。
+可选：通过上下方向键切换到不同的历史命令（1 分）。
 
-### 处理 Ctrl-D (EOF) 按键（选做）
+### 处理 Ctrl-D (EOF) 按键（选做，0.5 分）
 
 在使用 shell 的时候输入 `exit` 即可退出 shell，Ctrl-D (EOF) 在这种场景下等同于 `exit`。
 
-### 支持 Bash 风格的 TCP 重定向（选做）
+### 支持 Bash 风格的 TCP 重定向（选做，1 分）
 
 在精简的 Linux 环境中（如 Docker 容器里），常常是没有 `nc` 命令用来进行原始的 TCP 网络通信的。Bash 和一些其他 shell 支持一种特殊的重定向语法：`/dev/tcp/<host>/<port>`。
 
@@ -129,11 +129,11 @@ taokystrong
 echo $SHELL
 A=1 env
 alias ll='ls -l'
-echo ~root
+echo ~root                         # 0.5 分
 (sleep 10; echo aha) &
 if true; then ls; fi
 ifdown eth0 && ifup eth0
-set -u # check existence of variable
+set -u                             # check existence of variable
 ```
 
 请自行选择一个或多个功能并实现它们。
