@@ -24,11 +24,38 @@ g++ shell.cpp -o shell
 
 请你观察并学习这个语法，为你的 shell 程序实现这一功能。你可能要用到的函数：`pipe`、`close`、`dup`。你可以运行 `man 函数名` 来查看系统自带的文档，或者上网搜索更多信息。
 
+样例：
+
+```shell
+$ ls | cat -n
+     1  Cargo.lock
+     2  Cargo.toml
+     3  README.md
+     4  src
+     5  target
+$ ls | cat -n | grep 1
+     1  Cargo.lock
+```
+
 ### 支持基本的文件重定向
 
 形如 `ls > out.txt` 会将 `ls` 命令的标准输出（stdout）重定向到 `out.txt` 文件中，具体地说，会将 `out.txt` 关联到程序的标准输出，然后再运行相应的命令。类似的，`ls >> out.txt` 会将输出追加（而不是覆盖）到 `out.txt` 文件，`cat < in.txt` 会将程序的标准输入（stdin）重定向到文件 `in.txt`。
 
 请为你的 shell 程序实现 `>`、`>>` 和 `<` 的功能。你可能要用到的函数：`open`、`close`、`dup`。
+
+样例：
+
+```shell
+$ ls | cat -n | grep 1 > out
+$ cat out
+     1  Cargo.lock
+$ cat < out
+     1  Cargo.lock
+$ ls | cat -n | grep 5 >> out
+$ cat out
+     1  Cargo.lock
+     5  target
+```
 
 #### 支持基于文件描述符的文件重定向、文件重定向组合（选做）
 
@@ -126,10 +153,10 @@ taokystrong
 我们一般使用的 shell 非常强大，你还可以自行了解下面这些语法的含义：
 
 ```shell
-echo $SHELL
-A=1 env
-alias ll='ls -l'
 echo ~root                         # 0.5 分
+echo $SHELL                        # 0.5 分
+A=1 env                            # 剩下都 1 分
+alias ll='ls -l'
 (sleep 10; echo aha) &
 if true; then ls; fi
 ifdown eth0 && ifup eth0
@@ -282,7 +309,7 @@ waitpid(pid, 0, 0);
 在 syscall 出口处时，返回值存在 rax 寄存器中。
 我们可以通过读取寄存器 rax 来获取返回值，甚至是修改返回值：
 
-```
+```c
 ptrace(PTRACE_GETREGS, pid, 0, &regs);
 fprintf(stderr, " = %ld\n", (long)regs.rax);
 ```
@@ -336,8 +363,8 @@ ptrace 提供了相应的解决方法。
     - 只有寥寥无几的 commit
     - 上传了大量与实验要求无关的文件
 - shell 部分：必做项目共 8 分。对于额外的选做项目，shell 部分总分不超过 10 分：
-  - 你的 shell 能够正确处理含有 1 个管道的命令，如 `ls | grep shell`（1 分）
-    - 你的 shell 能够正确处理含有多个管道的命令，如 `ls | cat -n | grep shell`（1 分）
+  - 你的 shell 能够正确处理含有 1 个管道的命令（1 分）
+    - 你的 shell 能够正确处理含有多个管道的命令（1 分）
   - 你的 shell 支持 `>`, `>>`, `<` 重定向（各 0.5 分）
   - 你的 shell 在遇到 Ctrl-C 信号时不会中断 （0.5 分）
     - 你的 shell 在遇到 Ctrl-C 时能丢弃已经输入一半的命令行，显示 `#` 提示符并重新接受输入（1 分）
