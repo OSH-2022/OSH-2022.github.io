@@ -474,6 +474,7 @@ int main() {
 
       // std::string to char *: &s[0]（C++17 以上可以用 s.data()）
       // std::string 保证其内存是连续的
+      // 更新（05-07）:这里 CWD 没有 print 出来，要 print 或是进行进一步的字符串处理的话需要先自行 resize 把 std::string 中末尾的 \0 去掉，同时去掉末尾多余的空间
       const char *ret = getcwd(&cwd[0], PATH_MAX);
       if (ret == nullptr) {
         std::cout << "cwd failed\n";
