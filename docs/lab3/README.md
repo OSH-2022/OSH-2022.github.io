@@ -117,119 +117,119 @@ TCP 是一个基于流的协议，本身没有“消息”的概念。在整个�
 
 请注意，socket 是**全双工**的，即可以由两个线程同时分别读取与写入。但并发地读取或并发地写入可能会造成意想不到的后果。请利用操作系统课程中线程同步的相关知识实现对 socket 的安全操作。
 
-??? tip pthread
+??? tip "pthread"
 
-如果你在类 Unix 系统下编程，可以选择使用 pthread 线程库，这里将对其基本用法做出介绍。
+    如果你在类 Unix 系统下编程，可以选择使用 pthread 线程库，这里将对其基本用法做出介绍。
 
-```
-int pthread_create(pthread_t *thread, const pthread_attr_t *attr, void *(*start_routine) (void *), void *arg);
-int pthread_join(pthread_t thread, void **retval);
-int pthread_detach(pthread_t thread);
-```
+    ```
+    int pthread_create(pthread_t *thread, const pthread_attr_t *attr,     void *(*start_routine) (void *), void *arg);
+    int pthread_join(pthread_t thread, void **retval);
+    int pthread_detach(pthread_t thread);
+    ```
 
-`pthread_create` 函数用于创建并启动一个新的进程。第一个参数为指向我们要创建的线程对象的指针；第二个参数为创建时的属性，目前可以忽略；第三个参数为线程启动后将要执行的函数指针；第四个参数为传入线程执行函数的数据。
+    `pthread_create` 函数用于创建并启动一个新的进程。第一个参数为指向我们要创建的线程对象的指针；第二个参数为创建时的属性，目前可以忽略；第三个参数为线程启动后将要执行的函数指针；第四个参数为传入线程执行函数的数据。
 
-`pthread_join` 用于等待线程的结束，并接收返回值。第一个参数为线程对象，第二个参数为接收返回值的变量的指针，如果为 `NULL` 表示忽略返回值。
+    `pthread_join` 用于等待线程的结束，并接收返回值。第一个参数为线程对象，第二个参数为接收返回值的变量的指针，如果为 `NULL` 表示忽略返回值。
 
-`pthread_detach` 可以将线程与主线程分离，使该线程运行结束后得以终止自己并释放资源。分离后的线程将不能被 `pthread_join` 等待。
+    `pthread_detach` 可以将线程与主线程分离，使该线程运行结束后得以终止自己并释放资源。分离后的线程将不能被 `pthread_join` 等待。
 
-另外 pthread 线程库还包含处理互斥锁的函数。
+    另外 pthread 线程库还包含处理互斥锁的函数。
 
-```
-int pthread_mutex_init(pthread_mutex_t *restrict mutex, const pthread_mutexattr_t *restrict attr);
-int pthread_mutex_destroy(pthread_mutex_t *mutex);
-int pthread_mutex_lock(pthread_mutex_t *mutex);
-int pthread_mutex_unlock(pthread_mutex_t *mutex);
-```
+    ```
+    int pthread_mutex_init(pthread_mutex_t *restrict mutex, const pthread_mutexattr_t *restrict attr);
+    int pthread_mutex_destroy(pthread_mutex_t *mutex);
+    int pthread_mutex_lock(pthread_mutex_t *mutex);
+    int pthread_mutex_unlock(pthread_mutex_t *mutex);
+    ```
 
-正如函数名所示，这四个函数分别对应了互斥锁的初始化、销毁、加锁和解锁。你也可以直接使用 `PTHREAD_MUTEX_INITIALIZER` 宏来初始化互斥锁。
+    正如函数名所示，这四个函数分别对应了互斥锁的初始化、销毁、加锁和解锁。你也可以直接使用 `PTHREAD_MUTEX_INITIALIZER` 宏来初始化互斥锁。
 
-pthread 也包含处理条件变量的函数，可用于阻塞和同步线程。
+    pthread 也包含处理条件变量的函数，可用于阻塞和同步线程。
 
-```
-int pthread_cond_init(pthread_cond_t *restrict cond, const pthread_condattr_t *restrict attr);
-int pthread_cond_destroy(pthread_cond_t *cond);
-int pthread_cond_wait(pthread_cond_t *restrict cond, pthread_mutex_t *restrict mutex);
-```
+    ```
+    int pthread_cond_init(pthread_cond_t *restrict cond, const pthread_condattr_t *restrict attr);
+    int pthread_cond_destroy(pthread_cond_t *cond);
+    int pthread_cond_wait(pthread_cond_t *restrict cond, pthread_mutex_t *restrict mutex);
+    ```
 
-下面的代码展示了条件变量和互斥锁简单的使用方法：
+    下面的代码展示了条件变量和互斥锁简单的使用方法：
 
-```
-#include <stdio.h>
-#include <unistd.h>
-#include <pthread.h>
+    ```
+    #include <stdio.h>
+    #include <unistd.h>
+    #include <pthread.h>
 
-pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
-pthread_cond_t cv = PTHREAD_COND_INITIALIZER;
-int ready = 0;
-int data;
+    pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+    pthread_cond_t cv = PTHREAD_COND_INITIALIZER;
+    int ready = 0;
+    int data;
 
-void *worker(void *p) {
-    pthread_mutex_lock(&mutex);
-    while (!ready) {
-        pthread_cond_wait(&cv, &mutex);
+    void *worker(void *p) {
+        pthread_mutex_lock(&mutex);
+        while (!ready) {
+            pthread_cond_wait(&cv, &mutex);
+        }
+        printf("%d\n", data);
+        pthread_mutex_unlock(&mutex);
+        return NULL;
     }
-    printf("%d\n", data);
-    pthread_mutex_unlock(&mutex);
-    return NULL;
-}
 
-int main() {
-    pthread_t thread;
-    pthread_create(&thread, NULL, worker, NULL);
-    pthread_mutex_lock(&mutex);
-    sleep(1);
-    data = 1234;
-    ready = 1;
-    pthread_cond_signal(&cv);
-    pthread_mutex_unlock(&mutex);
-    pthread_join(thread, NULL);
-    return 0;
-}
-```
+    int main() {
+        pthread_t thread;
+        pthread_create(&thread, NULL, worker, NULL);
+        pthread_mutex_lock(&mutex);
+        sleep(1);
+        data = 1234;
+        ready = 1;
+        pthread_cond_signal(&cv);
+        pthread_mutex_unlock(&mutex);
+        pthread_join(thread, NULL);
+        return 0;
+    }
+    ```
 
-以上就是 pthread 线程库最基本的用法，如需进一步学习更高级的特性，请自行在互联网上搜索教程与文档。
+    以上就是 pthread 线程库最基本的用法，如需进一步学习更高级的特性，请自行在互联网上搜索教程与文档。
 
 ??? tip "C++ 线程库"
 
-如果你比较熟悉 C++ ，也可以使用 C++ 标准库中的线程库。这里给出一个与上面的示例程序功能相同的例子：
+    如果你比较熟悉 C++ ，也可以使用 C++ 标准库中的线程库。这里给出一个与上面的示例程序功能相同的例子：
 
-```
-#include <iostream>
-#include <thread>
-#include <mutex>
-#include <condition_variable>
-#include <chrono>
+    ```
+    #include <iostream>
+    #include <thread>
+    #include <mutex>
+    #include <condition_variable>
+    #include <chrono>
 
-int main() {
-    int n = 0;
-    int data;
-    bool ready = false;
-    std::mutex mutex;
-    std::condition_variable cv;
-    auto f = [&] {
-        std::unique_lock<std::mutex> lock(mutex);
-        cv.wait(lock, [&]{return ready;});
-        std::cout << data << std::endl;
-    };
-    std::thread thread(f);
-    std::this_thread::sleep_for(std::chrono::seconds(1));
-    {
-        std::lock_guard<std::mutex> lock(mutex);
-        data = 1234;
-        ready = true;
-        cv.notify_one();
+    int main() {
+        int n = 0;
+        int data;
+        bool ready = false;
+        std::mutex mutex;
+        std::condition_variable cv;
+        auto f = [&] {
+            std::unique_lock<std::mutex> lock(mutex);
+            cv.wait(lock, [&]{return ready;});
+            std::cout << data << std::endl;
+        };
+        std::thread thread(f);
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+        {
+            std::lock_guard<std::mutex> lock(mutex);
+            data = 1234;
+            ready = true;
+            cv.notify_one();
+        }
+        thread.join();
+        return 0;
     }
-    thread.join();
-    return 0;
-}
-```
+    ```
 
-请自行参阅 C++ 手册学习线程库的用法。
+    请自行参阅 C++ 手册学习线程库的用法。
 
 ### 细粒度锁 2'
 
-??? note 更好的实现
+??? note "更好的实现"
 
     如果你直接实现了这一部分，可以在得到附加分的同时一并获得前面的 4 分。
 
@@ -237,7 +237,7 @@ int main() {
 
 请实现一个细粒度锁以规避上述情况。
 
-??? note 提示
+??? note "提示"
 
     对 read/write 操作加锁是为了避免对同一个 fd 同时进行多个读/写操作。试想一种架构，它能够保证对同一个 fd 的多个读/写操作不会同时进行。
     可以考虑用消息队列作为通信方式，而不是直接向接收方的 fd 发送消息。
