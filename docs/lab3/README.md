@@ -22,8 +22,8 @@ void *handle_chat(void *data) {
     struct Pipe *pipe = (struct Pipe *)data;
     char buffer[1024] = "Message: ";
     ssize_t len;
-    while ((len = recv(pipe->fd_send, buffer + 8, 1000, 0)) > 0) {
-        send(pipe->fd_recv, buffer, len + 8, 0);
+    while ((len = recv(pipe->fd_send, buffer + 9, 1000, 0)) > 0) {
+        send(pipe->fd_recv, buffer, len + 9, 0);
     }
     return NULL;
 }
