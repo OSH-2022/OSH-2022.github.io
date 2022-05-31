@@ -380,7 +380,7 @@ async/await 可以如下理解：
 
 ### io_uring\* 2'
 
-`io_uring` 是最近才被引入内核的高效异步实现。和上面的几种方法相比使用 `io_uring` 能够带来显著的性能提升。不过由于本身是较新的概念，助教也没有完成示例代码。一些供参考的资料：[一篇文章带你读懂 io_uring 的接口与实现](https://zhuanlan.zhihu.com/p/380726590) [epoll 与 io_uring 服务器编程实践及对比](https://juejin.cn/post/7074212680071905311) [io_uring bare minimum echo server](https://github.com/frevib/io_uring-echo-server)
+`io_uring` 是最近才被引入内核的高效异步实现。和上面的几种方法相比使用 `io_uring` 能够带来显著的性能提升。不过由于本身是较新的概念，助教也没有完成示例代码。一些供参考的资料：[一篇文章带你读懂 io_uring 的接口与实现](https://zhuanlan.zhihu.com/p/380726590) [epoll 与 io_uring 服务器编程实践及对比](https://juejin.cn/post/7074212680071905311) 以及 `liburing` 库，它封装了 `io_uring` 的 syscall，你很可能会用到。一些基于它实现的例子：[io_uring bare minimum echo server](https://github.com/frevib/io_uring-echo-server)、[liburing Examples](https://unixism.net/loti/tutorial/index.html)。
 
 如果你实现了这一部分，除了分数你还可以赢得助教的掌声。
 
